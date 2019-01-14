@@ -1,0 +1,20 @@
+version: "3.1"
+
+services:
+  ssh-agent:
+    image: nardeas/ssh-agent
+    volumes:
+      - ~/.ssh:/.ssh
+      - foo:/.ssh-agent/
+
+  service:
+    build:
+      context: .
+    volumes:
+      - foo:/.ssh-agent/
+    environment:
+      - SSH_AUTH_SOCK=/.ssh-agent/socket
+    command: ssh -v -o StrictHostKeyChecking=no git@bitbucket.org
+
+volumes:
+  foo:
