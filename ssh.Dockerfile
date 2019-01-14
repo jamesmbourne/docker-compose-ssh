@@ -1,2 +1,0 @@
-FROM nardeas/ssh-agent
-

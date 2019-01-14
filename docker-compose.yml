@@ -2,12 +2,23 @@ version: "3.1"
 
 services:
   ssh-agent:
-    build:
-      context: .
-      dockerfile: ssh.Dockerfile
+    image: nardeas/ssh-agent
     volumes:
       - ~/.ssh:/.ssh
       - ssh-sock:/.ssh-agent/
+    environment:
+      - DEBUG=1
+
+  ssh-agent-add:
+    image: nardeas/ssh-agent
+    command: ssh-add
+    volumes:
+      - ~/.ssh:/.ssh
+      - ssh-sock:/.ssh-agent/
+    environment:
+      - DEBUG=1
+    depends_on:
+      - ssh-agent
 
   service:
     build:
@@ -18,6 +29,8 @@ services:
       - /node_modules/
     environment:
       - SSH_AUTH_SOCK=/.ssh-agent/socket
+    depends_on:
+      - ssh-agent-add
 
 volumes:
   ssh-sock:
