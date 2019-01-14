@@ -15,9 +15,9 @@ services:
       context: .
     volumes:
       - ssh-sock:/.ssh-agent/
+      - /node_modules/
     environment:
       - SSH_AUTH_SOCK=/.ssh-agent/socket
-    command: ssh -o StrictHostKeyChecking=no git@github.com
 
 volumes:
   ssh-sock:
