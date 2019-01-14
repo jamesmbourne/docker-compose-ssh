@@ -2,19 +2,22 @@ version: "3.1"
 
 services:
   ssh-agent:
-    image: nardeas/ssh-agent
+    build:
+      context: .
+      dockerfile: ssh.Dockerfile
     volumes:
       - ~/.ssh:/.ssh
-      - foo:/.ssh-agent/
+      - ssh-sock:/.ssh-agent/
 
   service:
     build:
+      dockerfile: Dockerfile
       context: .
     volumes:
-      - foo:/.ssh-agent/
+      - ssh-sock:/.ssh-agent/
     environment:
       - SSH_AUTH_SOCK=/.ssh-agent/socket
-    command: ssh -v -o StrictHostKeyChecking=no git@bitbucket.org
+    command: ssh -o StrictHostKeyChecking=no git@github.com
 
 volumes:
-  foo:
+  ssh-sock:
