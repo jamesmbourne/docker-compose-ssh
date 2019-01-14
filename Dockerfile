@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:experimental
 FROM node
 
 RUN mkdir -p ~/.ssh && \
