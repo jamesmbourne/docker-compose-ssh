@@ -1,8 +1,4 @@
-FROM node
-
-RUN mkdir -p ~/.ssh && \
-    touch ~/.ssh/known_hosts && \
-    ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts
+FROM jbourne/node-bitbucket
 
 COPY package.json .
 COPY yarn.lock .
